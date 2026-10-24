@@ -15,7 +15,7 @@
     if (g.steam) return `<div class="thumb embed steam"><iframe src="https://store.steampowered.com/widget/${encodeURIComponent(g.steam)}/" title="${esc(g.title)}（Steam）" loading="lazy"></iframe></div>`;
     if (g.itch) return `<div class="thumb embed itch"><iframe src="https://itch.io/embed/${encodeURIComponent(g.itch)}?linkback=true" title="${esc(g.title)}（itch.io）" loading="lazy"></iframe></div>`;
     const h = hueOf(g.genre);
-    const first = [...(g.title || "？")][0];
+    const first = [...(String(g.title || "？").replace(/^【[^】]*】\s*/, "") || "？")][0];
     return `<div class="thumb"><div class="ph" style="background:linear-gradient(135deg,hsl(${h} 55% 48%),hsl(${(h+40)%360} 50% 30%))">${esc(first)}</div></div>`;
   }
 
