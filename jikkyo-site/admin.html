@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>実況週報 編集室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.admin{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px;display:grid;gap:20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.top h1{font-size:28px}
+.conn{font-size:13px;display:flex;align-items:center;gap:8px;color:var(--muted)}
+.conn .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.conn.ok .dot{background:var(--ok)} .conn.err .dot{background:var(--tally)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+details.panel summary{cursor:pointer;font-weight:700}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px;align-items:start}
+input[type=range]{accent-color:var(--tally)}
+.field{display:grid;gap:4px;min-width:0}
+.field>span{font-size:12px;font-weight:700;color:var(--muted)}
+.field small{font-size:11px;color:var(--muted)}
+input[type=text],input[type=url],input[type=password],input[type=date],textarea,select{font:inherit;font-size:14px;width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:76px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--tally);outline-offset:1px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--chip);color:var(--ink)}
+.btn.primary{background:var(--tally);color:#fff}
+.btn.danger{background:transparent;color:var(--tally);border:1.5px solid var(--tally)}
+.btn:disabled{opacity:.5;cursor:wait}
+.main{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}}
+.glist{display:grid;gap:6px;max-height:70vh;overflow:auto}
+.gitem{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid transparent;cursor:pointer;background:none;font:inherit;color:inherit;text-align:left;width:100%}
+.gitem:hover{background:var(--chip)}
+.gitem[aria-current="true"]{border-color:var(--tally);background:var(--chip)}
+.gitem .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.gitem .s{font-size:11px;font-family:var(--mono);color:var(--muted)}
+.editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:20px;align-items:start}
+@media (max-width:1060px){.editor{grid-template-columns:1fr}}
+form{display:grid;gap:12px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{display:flex;align-items:center;gap:6px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.seg input{accent-color:var(--tally)}
+.preview{position:sticky;top:16px;display:grid;gap:8px}
+.preview>span{font-size:12px;font-weight:700;color:var(--muted)}
+.drop{border:1.5px dashed var(--line);border-radius:8px;padding:12px;font-size:13px;color:var(--muted);display:grid;gap:8px}
+.drop img{max-height:120px;border-radius:6px;justify-self:start}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pop);color:var(--popink);padding:10px 18px;border-radius:999px;font-size:14px;z-index:20;max-width:calc(100% - 32px)}
+.toast.err{background:var(--tally);color:#fff}
+.mode{font-family:var(--mono);font-size:12px;color:var(--tally);letter-spacing:.08em}
+</style>
+</head>
+<body>
+<div class="admin">
+  <div class="top">
+    <h1>実況週報 編集室</h1>
+    <div class="conn" id="conn"><span class="dot"></span><span id="connText">未接続</span></div>
+  </div>
+
+  <details class="panel" id="setup">
+    <summary>接続の設定</summary>
+    <div class="grid2">
+      <label class="field"><span>GitHubのユーザー名</span><input type="text" id="owner" placeholder="例：ritsuki" autocomplete="off"></label>
+      <label class="field"><span>リポジトリ名</span><input type="text" id="repo" placeholder="例：jikkyo-weekly" autocomplete="off"></label>
+      <label class="field"><span>ブランチ</span><input type="text" id="branch" value="main" autocomplete="off"></label>
+      <label class="field"><span>アクセストークン</span><input type="password" id="token" placeholder="github_pat_…" autocomplete="off"><small>このパソコンのブラウザにだけ保存されます。</small></label>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label class="row" style="font-size:13px;gap:6px"><input type="checkbox" id="remember" checked>このパソコンに記憶する</label>
+      <button class="btn primary" type="button" id="connect">接続して読み込む</button>
+      <button class="btn" type="button" id="forget">保存した設定を消す</button>
+    </div>
+  </details>
+
+  <div class="panel row">
+    <label class="field" style="flex:1;min-width:200px"><span>今週の名前（サイト上部に表示）</span><input type="text" id="week" placeholder="例：2026年10月 第4週"></label>
+    <button class="btn" type="button" id="saveWeek">週の名前を反映</button>
+  </div>
+
+  <div class="main">
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="row" style="justify-content:space-between"><strong>登録済みのゲーム</strong><button class="btn" type="button" id="newBtn">＋ 新しく追加</button></div>
+      <div class="glist" id="glist"><p class="hint">接続すると一覧が出ます。</p></div>
+    </div>
+
+    <div class="panel editor">
+      <form id="form" novalidate>
+        <div class="mode" id="mode">NEW ・ 新しいゲームを追加</div>
+        <label class="field"><span>タイトル *</span><input type="text" id="f_title" required></label>
+        <div class="grid2" style="margin:0">
+          <label class="field"><span>ジャンル *</span><input type="text" id="f_genre" list="genreList" required placeholder="ホラー"></label>
+          <label class="field"><span>プレイ時間</span><input type="text" id="f_time" placeholder="約40分"></label>
+        </div>
+        <datalist id="genreList"></datalist>
+        <label class="field"><span>紹介文</span><textarea id="f_desc"></textarea></label>
+        <div class="field"><span>配信のルール</span>
+          <div class="seg">
+            <label><input type="radio" name="status" value="ok" checked>配信OK</label>
+            <label><input type="radio" name="status" value="cond">条件あり</label>
+            <label><input type="radio" name="status" value="check">要確認</label>
+            <label><input type="checkbox" id="f_money">収益化OK</label>
+          </div>
+        </div>
+        <label class="field"><span>条件や注意（条件ありのときに）</span><input type="text" id="f_note" placeholder="最終章の配信は発売1か月後から"></label>
+        <div class="grid2" style="margin:0">
+          <label class="field"><span>実況の多さ <b id="heatVal">3</b> / 5</span><input type="range" id="f_heat" min="1" max="5" value="3"></label>
+          <label class="field"><span>確認日</span><input type="date" id="f_checked"></label>
+        </div>
+        <label class="row" style="font-size:14px;gap:6px"><input type="checkbox" id="f_pick">今週のおすすめに表示する</label>
+        <div class="grid2" style="margin:0">
+          <label class="field"><span>ゲームのページ</span><input type="url" id="f_site" placeholder="https://"></label>
+          <label class="field"><span>公式ガイドライン</span><input type="url" id="f_guide" placeholder="https://"></label>
+        </div>
+        <div class="field"><span>サムネイル（許可済みの画像があれば）</span>
+          <div class="drop">
+            <input type="file" id="f_image" accept="image/*">
+            <img id="imgPrev" alt="" hidden>
+            <button class="btn" type="button" id="imgClear" hidden>画像を外す</button>
+            <small>画像がないときは、SteamやitchのIDで公式の紹介枠を出せます。</small>
+          </div>
+        </div>
+        <div class="grid2" style="margin:0">
+          <label class="field"><span>SteamのアプリID</span><input type="text" id="f_steam" inputmode="numeric" placeholder="例：1234560"></label>
+          <label class="field"><span>itch.ioのゲームID</span><input type="text" id="f_itch" inputmode="numeric"></label>
+        </div>
+        <label class="field"><span>検索用タグ（読点・スペース区切り）</span><input type="text" id="f_tags" placeholder="短編、コラボ、かわいい"></label>
+        <label class="field"><span>編集部のひとこと（1行に1つ）</span><textarea id="f_voices"></textarea></label>
+        <div class="row" style="justify-content:space-between;margin-top:4px">
+          <button class="btn danger" type="button" id="delBtn" hidden>このゲームを削除</button>
+          <button class="btn primary" type="submit" id="saveBtn" style="margin-left:auto">追加してサイトに反映</button>
+        </div>
+      </form>
+      <div class="preview"><span>サイトでの見え方</span><div id="prev"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="card.js"></script>
+<script>
+const { card, esc } = window.Jikkyo;
+const $ = id => document.getElementById(id);
+const store = { get(k){ try{ return localStorage.getItem(k) ?? sessionStorage.getItem(k); }catch(e){ return null; } },
+                set(k,v,keep){ try{ (keep?localStorage:sessionStorage).setItem(k,v); }catch(e){} },
+                clear(){ try{ ["owner","repo","branch","token"].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);}); }catch(e){} } };
+
+let DATA = null;            // {week, games}
+let editingId = null;       // 編集中のゲームID（新規ならnull）
+let pendingImage = null;    // {dataUrl, ext} 新しく選んだ画像
+let removeImage = false;    // 既存画像を外す
+
+/* ---------- 文字列 <-> Base64（日本語OK） ---------- */
+const toB64 = s => { const b = new TextEncoder().encode(s); let bin=""; for(let i=0;i<b.length;i+=0x8000) bin += String.fromCharCode(...b.subarray(i,i+0x8000)); return btoa(bin); };
+const fromB64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,"")), c=>c.charCodeAt(0)));
+
+/* ---------- GitHub API ---------- */
+const cfg = () => ({ owner:$("owner").value.trim(), repo:$("repo").value.trim(), branch:$("branch").value.trim()||"main", token:$("token").value.trim() });
+async function gh(path, method="GET", body){
+  const c = cfg();
+  const url = `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${path}` + (method==="GET" ? `?ref=${encodeURIComponent(c.branch)}&t=${Date.now()}` : "");
+  const res = await fetch(url, { method, headers:{ "Authorization":`Bearer ${c.token}`, "Accept":"application/vnd.github+json", "Content-Type":"application/json" }, body: body ? JSON.stringify({...body, branch:c.branch}) : undefined });
+  if (res.status === 404 && method === "GET") return null;
+  if (!res.ok){
+    const msg = res.status===401 ? "トークンが正しくないか、期限が切れています。"
+              : res.status===403 ? "トークンにこのリポジトリへの書き込み権限がありません。"
+              : res.status===404 ? "リポジトリが見つかりません。ユーザー名とリポジトリ名を確認してください。"
+              : res.status===409 ? "他の更新と重なりました。もう一度押してください。"
+              : `GitHubからエラーが返りました（${res.status}）。`;
+    throw new Error(msg);
+  }
+  return res.status === 204 ? null : res.json();
+}
+async function loadData(){
+  const f = await gh("games.json");
+  if (!f) return { data:{week:"",games:[]}, sha:null };
+  return { data: JSON.parse(fromB64(f.content)), sha: f.sha };
+}
+/* 最新のgames.jsonを取り直してから変更を当てて保存（上書き事故を防ぐ） */
+async function commitData(message, mutate){
+  const { data, sha } = await loadData();
+  mutate(data);
+  await gh("games.json","PUT",{ message, content: toB64(JSON.stringify(data,null,2)+"\n"), ...(sha?{sha}:{}) });
+  DATA = data;
+}
+async function deleteFile(path){
+  if (!path || /^https?:/.test(path)) return;
+  const f = await gh(path);
+  if (f) await gh(path,"DELETE",{ message:`画像を削除: ${path}`, sha:f.sha });
+}
+
+/* ---------- 画面 ---------- */
+let toastTimer;
+function toast(msg, err){
+  document.querySelectorAll(".toast").forEach(t=>t.remove());
+  const t = document.createElement("div"); t.className = "toast"+(err?" err":""); t.textContent = msg; t.setAttribute("role","status");
+  document.body.appendChild(t); clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.remove(), err?7000:4000);
+}
+function setConn(state, text){ $("conn").className = "conn "+state; $("connText").textContent = text; }
+function busy(on){ ["saveBtn","delBtn","saveWeek","connect"].forEach(id=>$(id).disabled = on); }
+
+function renderList(){
+  const games = DATA?.games || [];
+  $("glist").innerHTML = games.length ? games.map(g=>`<button type="button" class="gitem" data-id="${esc(g.id)}" aria-current="${g.id===editingId}">
+      <span class="t">${g.pick?"★ ":""}${esc(g.title)}</span><span class="s">${esc(g.genre)}</span></button>`).join("")
+    : `<p class="hint">まだ登録がありません。右のフォームから追加できます。</p>`;
+  $("genreList").innerHTML = [...new Set(games.map(g=>g.genre).filter(Boolean))].map(x=>`<option value="${esc(x)}">`).join("");
+}
+
+const today = () => new Date(Date.now() - new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+function isoFromChecked(c){ if(!c) return today(); const m = String(c).match(/^(\d{1,2})\/(\d{1,2})$/); return m ? `${new Date().getFullYear()}-${m[1].padStart(2,"0")}-${m[2].padStart(2,"0")}` : (/^\d{4}-\d{2}-\d{2}$/.test(c)?c:today()); }
+function checkedFromIso(iso){ const [,m,d] = iso.split("-"); return `${+m}/${+d}`; }
+
+function fillForm(g){
+  editingId = g ? g.id : null; pendingImage = null; removeImage = false;
+  $("f_title").value = g?.title || ""; $("f_genre").value = g?.genre || ""; $("f_time").value = g?.time || "";
+  $("f_desc").value = g?.desc || ""; $("f_note").value = g?.note || "";
+  document.querySelector(`input[name=status][value=${g?.status || "ok"}]`).checked = true;
+  $("f_money").checked = g ? !!g.money : false; $("f_pick").checked = !!g?.pick;
+  $("f_heat").value = g?.heat || 3; $("heatVal").textContent = $("f_heat").value;
+  $("f_checked").value = isoFromChecked(g?.checked);
+  $("f_site").value = g?.site || ""; $("f_guide").value = g?.guide || "";
+  $("f_steam").value = g?.steam || ""; $("f_itch").value = g?.itch || "";
+  $("f_tags").value = (g?.tags || []).join("、");
+  $("f_voices").value = (g?.voices || []).map(v=>v.t).join("\n");
+  $("f_image").value = "";
+  showImage(rawUrl(g?.thumb));
+  $("mode").textContent = g ? "EDIT ・ 登録済みのゲームを修正" : "NEW ・ 新しいゲームを追加";
+  $("saveBtn").textContent = g ? "修正してサイトに反映" : "追加してサイトに反映";
+  $("delBtn").hidden = !g;
+  renderList(); preview();
+}
+function rawUrl(p){ if(!p) return ""; if(/^(https?:|data:)/.test(p)) return p; const c=cfg(); return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${p}`; }
+function showImage(src){ $("imgPrev").hidden = !src; $("imgClear").hidden = !src; if(src) $("imgPrev").src = src; else $("imgPrev").removeAttribute("src"); }
+
+function readForm(){
+  const base = DATA?.games.find(g=>g.id===editingId) || {};
+  return {
+    id: editingId || ("g" + Date.now().toString(36)),
+    title: $("f_title").value.trim(), genre: $("f_genre").value.trim(), time: $("f_time").value.trim(),
+    status: document.querySelector("input[name=status]:checked").value, money: $("f_money").checked,
+    heat: Number($("f_heat").value), pick: $("f_pick").checked,
+    site: $("f_site").value.trim(), guide: $("f_guide").value.trim(),
+    thumb: removeImage ? "" : (base.thumb || ""), steam: $("f_steam").value.trim(), itch: $("f_itch").value.trim(),
+    tags: $("f_tags").value.split(/[、,，\s]+/).map(s=>s.trim()).filter(Boolean),
+    desc: $("f_desc").value.trim(), note: $("f_note").value.trim(),
+    voices: $("f_voices").value.split("\n").map(s=>s.trim()).filter(Boolean).map(t=>({t, by:"編集部"})),
+    checked: checkedFromIso($("f_checked").value || today()),
+  };
+}
+function preview(){
+  const g = readForm();
+  if (pendingImage) g.thumb = pendingImage.dataUrl;
+  else g.thumb = rawUrl(g.thumb);
+  if (!g.title) g.title = "（タイトル）";
+  $("prev").innerHTML = card(g, g.pick);
+}
+
+/* 画像は横1280pxまでに縮めてから送る */
+async function shrink(file){
+  const img = await new Promise((ok,ng)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ng; i.src=URL.createObjectURL(file); });
+  const scale = Math.min(1, 1280 / img.naturalWidth);
+  const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth*scale); c.height = Math.round(img.naturalHeight*scale);
+  c.getContext("2d").drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(img.src);
+  let dataUrl = c.toDataURL("image/webp", .85), ext = "webp";
+  if (!dataUrl.startsWith("data:image/webp")) { dataUrl = c.toDataURL("image/jpeg", .85); ext = "jpg"; }
+  return { dataUrl, ext };
+}
+
+/* ---------- 操作 ---------- */
+$("connect").addEventListener("click", async ()=>{
+  const c = cfg();
+  if (!c.owner || !c.repo || !c.token) { toast("ユーザー名・リポジトリ名・トークンを入れてください。", true); return; }
+  const keep = $("remember").checked;
+  Object.entries(c).forEach(([k,v])=>store.set(k,v,keep));
+  busy(true); setConn("", "接続中…");
+  try{
+    DATA = (await loadData()).data;
+    $("week").value = DATA.week || "";
+    setConn("ok", `${c.owner}/${c.repo} に接続中`); $("setup").open = false;
+    fillForm(null); toast(`${DATA.games.length}本のゲームを読み込みました。`);
+  }catch(e){ setConn("err","接続できません"); toast(e.message, true); }
+  busy(false);
+});
+$("forget").addEventListener("click", ()=>{ store.clear(); $("token").value=""; toast("保存していた設定を消しました。"); });
+
+$("glist").addEventListener("click", e=>{
+  const b = e.target.closest(".gitem"); if(!b) return;
+  fillForm(DATA.games.find(g=>g.id===b.dataset.id));
+  window.scrollTo({top:$("form").getBoundingClientRect().top + scrollY - 20, behavior:"smooth"});
+});
+$("newBtn").addEventListener("click", ()=>fillForm(null));
+$("form").addEventListener("input", e=>{ if(e.target.id==="f_heat") $("heatVal").textContent = e.target.value; preview(); });
+$("form").addEventListener("change", preview);
+
+$("f_image").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{ pendingImage = await shrink(f); removeImage = false; showImage(pendingImage.dataUrl); preview(); }
+  catch(err){ toast("この画像は読み込めませんでした。PNGかJPEGで試してください。", true); }
+});
+$("imgClear").addEventListener("click", ()=>{ pendingImage = null; removeImage = true; $("f_image").value=""; showImage(""); preview(); });
+
+$("form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  if (!DATA) { toast("先に「接続の設定」から接続してください。", true); $("setup").open = true; return; }
+  const g = readForm();
+  if (!g.title || !g.genre) { toast("タイトルとジャンルは必須です。", true); return; }
+  const isNew = !editingId;
+  const old = DATA.games.find(x=>x.id===g.id);
+  busy(true);
+  try{
+    if (pendingImage){
+      const path = `images/${g.id}-${Date.now().toString(36)}.${pendingImage.ext}`;
+      await gh(path,"PUT",{ message:`画像を追加: ${g.title}`, content: pendingImage.dataUrl.split(",")[1] });
+      g.thumb = path;
+    }
+    await commitData(`${isNew?"追加":"修正"}: ${g.title}`, data=>{
+      const i = data.games.findIndex(x=>x.id===g.id);
+      if (i >= 0) data.games[i] = g; else data.games.unshift(g);
+    });
+    if (old?.thumb && old.thumb !== g.thumb) await deleteFile(old.thumb).catch(()=>{});
+    fillForm(DATA.games.find(x=>x.id===g.id));
+    toast(`「${g.title}」を${isNew?"追加":"修正"}しました。1〜2分でサイトに反映されます。`);
+  }catch(err){ toast(err.message, true); }
+  busy(false);
+});
+
+$("delBtn").addEventListener("click", async ()=>{
+  const g = DATA?.games.find(x=>x.id===editingId); if(!g) return;
+  if (!confirm(`「${g.title}」をサイトから削除します。よろしいですか？`)) return;
+  busy(true);
+  try{
+    await commitData(`削除: ${g.title}`, data=>{ data.games = data.games.filter(x=>x.id!==g.id); });
+    await deleteFile(g.thumb).catch(()=>{});
+    fillForm(null); toast(`「${g.title}」を削除しました。1〜2分でサイトからも消えます。`);
+  }catch(err){ toast(err.message, true); }
+  busy(false);
+});
+
+$("saveWeek").addEventListener("click", async ()=>{
+  if (!DATA) { toast("先に接続してください。", true); $("setup").open = true; return; }
+  const w = $("week").value.trim();
+  busy(true);
+  try{ await commitData(`週の名前を更新: ${w}`, data=>{ data.week = w; }); toast("週の名前を反映しました。"); }
+  catch(err){ toast(err.message, true); }
+  busy(false);
+});
+
+/* 起動時：保存した設定があれば自動で接続 */
+["owner","repo","branch","token"].forEach(k=>{ const v = store.get(k); if(v) $(k).value = v; });
+$("f_checked").value = today();
+preview();
+if ($("owner").value && $("repo").value && $("token").value) $("connect").click(); else $("setup").open = true;
+</script>
+</body>
+</html>
