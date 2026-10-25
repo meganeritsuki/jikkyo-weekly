@@ -88,5 +88,8 @@ button:focus-visible,.gl a:focus-visible{outline:2px solid var(--tally);outline-
 .empty{grid-column:1/-1;background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:28px;text-align:center;color:var(--muted)}
 .legend{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted);display:grid;gap:6px}
 .legend strong{color:var(--ink)}
+.site-foot{display:grid;gap:4px;font-size:12px;color:var(--muted);text-align:center}
+.site-foot p{margin:0}
+.site-foot a{color:var(--ink);font-weight:700}
 .sample{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.45);color:#fff;padding:1px 7px;border-radius:4px}
 mark{background:color-mix(in srgb,var(--tally) 25%,transparent);color:inherit;border-radius:2px}
