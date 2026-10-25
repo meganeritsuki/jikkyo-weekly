@@ -1,7 +1,9 @@
 /* カードの見た目を作る共通部品（サイト本体と管理画面のプレビューで共有） */
 (function(){
   const STATUS = {ok:["ok","配信OK"], cond:["cond","条件あり"], check:["check","要確認"]};
-  const HUES = {"ホラー":350,"協力":200,"謎解き":265,"まったり":30,"アクション":10,"ノベル":160};
+  const GENRES = ["アクション","ノベル","RPG","謎解き","パズル","その他"];
+  const TIMES = ["10分","30分","1時間","1時間半","2時間以上"];
+  const HUES = {"アクション":10,"ノベル":160,"RPG":42,"謎解き":265,"パズル":195,"その他":225,"ホラー":350,"協力":200,"まったり":30};
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
   function hueOf(genre){
@@ -51,5 +53,5 @@
     if(btn) btn.parentElement.classList.toggle("open");
   });
 
-  window.Jikkyo = { esc, card, STATUS };
+  window.Jikkyo = { esc, card, STATUS, GENRES, TIMES };
 })();
