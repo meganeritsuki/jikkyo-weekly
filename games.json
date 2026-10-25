@@ -2,6 +2,35 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvnhhz2g",
+      "title": "16 DSKB Types",
+      "genre": "その他",
+      "time": "10分",
+      "status": "ok",
+      "money": false,
+      "heat": 4,
+      "pick": false,
+      "site": "https://novelgame.jp/games/show/13811",
+      "guide": "",
+      "thumb": "images/gmvnhhz2g-mvnhhz2g.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "どすけべ",
+        "診断",
+        "DSKB"
+      ],
+      "desc": "4つの指標から、あなたの隠れたDSKB（ドスケベ）気質を暴きます。\n正解も不正解もありません。建前は捨てて、直感で答えてください。\n\nあなたの本性に最も近い16タイプは、果たして……？",
+      "note": "",
+      "voices": [
+        {
+          "t": "私は熊さんでした",
+          "by": "編集部"
+        }
+      ],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvndha0n",
       "title": "NoA_1208",
       "genre": "ノベル",
