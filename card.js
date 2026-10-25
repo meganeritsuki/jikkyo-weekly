@@ -34,7 +34,7 @@
       <div class="body">
         <h3 class="ttl"><a href="${esc(g.site || "#")}" target="_blank" rel="noopener">${esc(g.title)}</a><span class="ext">↗</span></h3>
         <div class="meta"><span>${esc(g.genre)}</span>${g.time?`<span>プレイ時間 ${esc(g.time)}</span>`:""}</div>
-        <div class="badges"><span class="b ${cls}">${label}</span>${g.money?'<span class="b ok">収益化OK</span>':''}</div>
+        <div class="badges"><span class="b ${cls}">${label}</span>${g.money?'<span class="b ok">収益化OK</span>':''}${g.id?`<button type="button" class="fav" data-id="${esc(g.id)}" aria-pressed="${g._fav?"true":"false"}" aria-label="${esc(g.title)}を${g._fav?"気になるから外す":"気になるに追加"}" title="${g._fav?"気になるから外す":"気になるに追加"}">★</button>`:""}</div>
         <div class="heat">実況の多さ <span class="bars" aria-label="5段階中${heat}">${bars}</span></div>
         ${g.desc?`<p class="desc">${esc(g.desc)}</p>`:""}
         ${g.note?`<p class="note">${esc(g.note)}</p>`:""}
