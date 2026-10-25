@@ -171,31 +171,6 @@
         }
       ],
       "checked": "10/20"
-    },
-    {
-      "id": "sample-7",
-      "title": "【見本】灯台守の手紙",
-      "genre": "ノベル",
-      "time": "約3時間",
-      "status": "cond",
-      "money": false,
-      "heat": 2,
-      "pick": false,
-      "site": "",
-      "guide": "",
-      "thumb": "",
-      "steam": "",
-      "itch": "",
-      "tags": [
-        "物語",
-        "朗読",
-        "泣ける",
-        "静か"
-      ],
-      "desc": "手紙のやりとりで進む静かな物語。朗読配信にもぴったりです。",
-      "note": "収益化は不可。配信は全編OKです。",
-      "voices": [],
-      "checked": "10/16"
     }
   ]
 }
