@@ -60,7 +60,13 @@ h2 small{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacin
 .ttl .ext{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:4px}
 .meta{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
 .desc{margin:0;font-size:14px}
-.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fav{margin-left:auto;position:relative;z-index:2;width:32px;height:32px;padding:0;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);font-size:15px;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.fav:hover{border-color:var(--cond);color:var(--cond)}
+.fav[aria-pressed="true"]{background:var(--cond);border-color:var(--cond);color:#fff}
+.fav:focus-visible{outline:2px solid var(--tally);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.fav[aria-pressed="true"]{animation:pop .25s ease}}
+@keyframes pop{50%{transform:scale(1.18)}}
 .b{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
 .b.ok{color:var(--ok)} .b.cond{color:var(--cond)} .b.check{color:var(--check)}
 .heat{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
