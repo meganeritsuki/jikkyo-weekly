@@ -2,6 +2,31 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvnj6in6",
+      "title": "直視してはならない",
+      "genre": "謎解き",
+      "time": "30分",
+      "status": "ok",
+      "money": false,
+      "heat": 3,
+      "pick": false,
+      "site": "https://unityroom.com/games/thesun",
+      "guide": "",
+      "thumb": "images/gmvnj6in6-mvnj6in6.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [],
+      "desc": "直視してはならない。\n■■を、直視しては、ならない。",
+      "note": "",
+      "voices": [
+        {
+          "t": "目が、目が～～！！！",
+          "by": "編集部"
+        }
+      ],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvnhtt0c",
       "title": "ママにあいたい",
       "genre": "アドベンチャー",
