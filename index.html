@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 <div class="wrap">
@@ -36,6 +36,12 @@
     <div class="picks" id="picks"></div>
   </section>
 
+  <section id="favSec" hidden>
+    <h2>気になる <small id="favCount">MY LIST</small></h2>
+    <p class="hint" id="favHint">ゲームの右にある ★ を押すと、ここに保存されます。保存した内容はこのブラウザの中だけに残ります。</p>
+    <div class="list" id="favs"></div>
+  </section>
+
   <section>
     <h2 id="listTitle">ジャンルからさがす <small id="count"></small></h2>
     <div class="filters" id="filters" role="group" aria-label="ジャンル"></div>
@@ -50,7 +56,7 @@
   </section>
 </div>
 
-<script src="card.js"></script>
+<script src="card.js?v=3"></script>
 <script>
 /* 言い換え辞書：左の言葉で検索すると右の言葉にもヒットする */
 const SYNONYMS = {
@@ -72,11 +78,23 @@ const matches = (g, groups) => {
 
 let GAMES = [], genres = ["すべて"], current = "すべて", query = "";
 
+/* 気になる：訪問者ごとにこのブラウザへ保存 */
+let favs = new Set();
+try{ favs = new Set(JSON.parse(localStorage.getItem("favs") || "[]")); }catch(e){}
+const saveFavs = () => { try{ localStorage.setItem("favs", JSON.stringify([...favs])); }catch(e){} };
+const withFav = g => ({...g, _fav: favs.has(g.id)});
+
 function render(){
   $("filters").innerHTML = genres.map(x=>`<button type="button" aria-pressed="${x===current}">${esc(x)}</button>`).join("");
   const groups = terms(query);
   const shown = GAMES.filter(g => (current==="すべて" || g.genre===current) && matches(g, groups));
-  $("list").innerHTML = shown.length ? shown.map(g=>card(g,false)).join("")
+  $("picks").innerHTML = GAMES.filter(g=>g.pick).map(g=>card(withFav(g),true)).join("");
+  const favGames = GAMES.filter(g=>favs.has(g.id));
+  $("favs").innerHTML = favGames.map(g=>card(withFav(g),false)).join("");
+  $("favHint").hidden = favGames.length > 0;
+  $("favCount").textContent = favGames.length ? `${favGames.length} TITLES` : "MY LIST";
+  $("favSec").hidden = !!query || !GAMES.length;
+  $("list").innerHTML = shown.length ? shown.map(g=>card(withFav(g),false)).join("")
     : `<div class="empty">${query ? `「${esc(query)}」に合うゲームは見つかりませんでした。別の言葉か、ジャンルを「すべて」にして探してみてください。` : "まだゲームが登録されていません。"}</div>`;
   $("count").textContent = `${shown.length} TITLES`;
   $("listTitle").firstChild.textContent = query ? "検索結果 " : "ジャンルからさがす ";
@@ -89,7 +107,6 @@ fetch("games.json", {cache:"no-store"})
   .then(data => {
     GAMES = data.games || [];
     $("week").textContent = (data.week || "") + " 更新";
-    $("picks").innerHTML = GAMES.filter(g=>g.pick).map(g=>card(g,true)).join("");
     const order = window.Jikkyo.GENRES || [];
     const rank = x => { const i = order.indexOf(x); return i < 0 ? 99 : i; };
     genres = ["すべて", ...[...new Set(GAMES.map(g=>g.genre).filter(Boolean))].sort((a,b)=>rank(a)-rank(b))];
@@ -107,6 +124,13 @@ $("filters").addEventListener("click", e=>{
   render();
 });
 $("q").addEventListener("input", e=>{ query = e.target.value; render(); });
+document.addEventListener("click", e=>{
+  const b = e.target.closest(".fav"); if(!b) return;
+  e.preventDefault();
+  const id = b.dataset.id;
+  if (favs.has(id)) favs.delete(id); else favs.add(id);
+  saveFavs(); render();
+});
 $("clear").addEventListener("click", ()=>{ $("q").value=""; query=""; render(); $("q").focus(); });
 </script>
 </body>
