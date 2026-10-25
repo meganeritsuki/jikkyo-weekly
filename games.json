@@ -2,6 +2,28 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvnjtd2z",
+      "title": "イツカノヨル",
+      "genre": "アドベンチャー",
+      "time": "30分",
+      "status": "ok",
+      "money": false,
+      "heat": 3,
+      "pick": false,
+      "site": "https://unityroom.com/games/fivedaysnight",
+      "guide": "",
+      "thumb": "images/gmvnjtd2z-mvnjtd2z.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "美少女"
+      ],
+      "desc": "あなたが過ごすのは、死刑判決を受けた竜族の女の子との5日間。\n\n彼女は本当に危険な存在なのか？\n怪しい動きや危害の兆候を感じたら、すぐにボタンを押してください。\n\nその一押しで、処刑が執行されます。",
+      "note": "",
+      "voices": [],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvnjpdfo",
       "title": "変な家シミュレーター",
       "genre": "パズル",
