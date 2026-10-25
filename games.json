@@ -120,30 +120,6 @@
       "checked": "10/18"
     },
     {
-      "id": "sample-5",
-      "title": "【見本】真夜中の採点係",
-      "genre": "ホラー",
-      "time": "約25分",
-      "status": "check",
-      "money": false,
-      "heat": 1,
-      "pick": false,
-      "site": "",
-      "guide": "",
-      "thumb": "",
-      "steam": "",
-      "itch": "",
-      "tags": [
-        "短編",
-        "学校",
-        "不気味"
-      ],
-      "desc": "学校で答案を採点し続ける不気味な短編。公式の配信ルールがまだ見つかっていません。",
-      "note": "作者さんへ問い合わせ中です。",
-      "voices": [],
-      "checked": "10/17"
-    },
-    {
       "id": "sample-6",
       "title": "【見本】ブロック・ブロック・ブロック",
       "genre": "アクション",
