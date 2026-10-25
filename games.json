@@ -2,6 +2,29 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvnhtt0c",
+      "title": "ママにあいたい",
+      "genre": "その他",
+      "time": "1時間半",
+      "status": "ok",
+      "money": false,
+      "heat": 4,
+      "pick": false,
+      "site": "https://www.freem.ne.jp/win/game/17493",
+      "guide": "",
+      "thumb": "images/gmvnhtt0c-mvnhtt0c.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "ママにあいたい",
+        "鬱"
+      ],
+      "desc": "ママに会いたいと願う「6番目」。きょうだいたちと不気味な世界をさまよいながら、ママのもとを目指します。\n\nその先に待つのは、希望か、それとも残酷な真実か――。\n\nさあ、あなたも「ママにあいたい」理由を見届けましょう。",
+      "note": "",
+      "voices": [],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvnhhz2g",
       "title": "16 DSKB Types",
       "genre": "その他",
