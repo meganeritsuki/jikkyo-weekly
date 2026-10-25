@@ -229,6 +229,7 @@ function fillForm(g){
   $("mode").textContent = g ? "EDIT ・ 登録済みのゲームを修正" : "NEW ・ 新しいゲームを追加";
   $("saveBtn").textContent = g ? "修正してサイトに反映" : "追加してサイトに反映";
   $("delBtn").hidden = !g;
+  resetDel();
   renderList(); preview();
 }
 function rawUrl(p){ if(!p) return ""; if(/^(https?:|data:)/.test(p)) return p; const c=cfg(); return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${p}`; }
@@ -326,9 +327,16 @@ $("form").addEventListener("submit", async e=>{
   busy(false);
 });
 
+function resetDel(){ const b=$("delBtn"); b.dataset.armed=""; b.textContent="このゲームを削除"; clearTimeout(b._t); }
 $("delBtn").addEventListener("click", async ()=>{
   const g = DATA?.games.find(x=>x.id===editingId); if(!g) return;
-  if (!confirm(`「${g.title}」をサイトから削除します。よろしいですか？`)) return;
+  const btn = $("delBtn");
+  if (btn.dataset.armed !== "1"){
+    btn.dataset.armed = "1"; btn.textContent = "もう一度押すと削除します";
+    clearTimeout(btn._t); btn._t = setTimeout(resetDel, 5000);
+    return;
+  }
+  resetDel();
   busy(true);
   try{
     await commitData(`削除: ${g.title}`, data=>{ data.games = data.games.filter(x=>x.id!==g.id); });
