@@ -2,6 +2,41 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvncwct9",
+      "title": "禁忌に触れるな",
+      "genre": "ノベルゲーム",
+      "time": "1時間",
+      "status": "ok",
+      "money": true,
+      "heat": 3,
+      "pick": true,
+      "site": "https://unityroom.com/games/kinkinihureruna",
+      "guide": "",
+      "thumb": "images/gmvncwct9-mvncwct9.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "鬱ゲー",
+        "ホラー",
+        "ノベルゲー",
+        "推理",
+        "どっこいサーモンネキ！"
+      ],
+      "desc": "主人公の貴方は、個性豊かな8人の罪人の罪を特定してください。\nただし、禁忌に触れることは許されません。\n発狂し、おかしくなる者もいれば、心を閉ざしてしまうものもいます。\n\n落ち着いて、罪を突き止めてください。",
+      "note": "",
+      "voices": [
+        {
+          "t": "罪を特定していくのが楽しい！",
+          "by": "編集部"
+        },
+        {
+          "t": "教祖様！教祖様！！",
+          "by": "編集部"
+        }
+      ],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvnbzvph",
       "title": "こわして、こわして、いっしょに堕ちよう。",
       "genre": "ノベルゲーム",
