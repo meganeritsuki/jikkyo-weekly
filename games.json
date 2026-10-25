@@ -2,6 +2,35 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvnbzvph",
+      "title": "こわして、こわして、いっしょに堕ちよう。",
+      "genre": "ノベルゲーム",
+      "time": "1時間",
+      "status": "ok",
+      "money": true,
+      "heat": 2,
+      "pick": false,
+      "site": "https://novelgame.jp/games/show/12692",
+      "guide": "",
+      "thumb": "images/gmvnbzvph-mvnbzvph.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "鬱ゲー",
+        "ホラー",
+        "ノベルゲー"
+      ],
+      "desc": "仕事と絶望に疲れ果てた主人公のもとに\nある日、 \"なぎ\" という不思議な少女が現れる。\n二人で過ごす静かな日々。\nやがて訪れる、 \"壊す\" か \"壊さないか\" の選択…。\nその先に待つのは、幸福化、破滅か、それとも＿＿＿＿＿＿＿。",
+      "note": "",
+      "voices": [
+        {
+          "t": "美少女のなぎちゃんと幸せで鬱々とした日々を過ごしましょう！",
+          "by": "編集部"
+        }
+      ],
+      "checked": "10/25"
+    },
+    {
       "id": "sample-1",
       "title": "【見本】夜行列車と七つの忘れ物",
       "genre": "ホラー",
