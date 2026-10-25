@@ -38,10 +38,10 @@
         <div class="heat">実況の多さ <span class="bars" aria-label="5段階中${heat}">${bars}</span></div>
         ${g.desc?`<p class="desc">${esc(g.desc)}</p>`:""}
         ${g.note?`<p class="note">${esc(g.note)}</p>`:""}
-        <div class="foot">
-          <span class="gl"><a href="${esc(g.guide || "#")}" target="_blank" rel="noopener">公式ガイドラインを見る</a>${pop}</span>
+        ${(pop || g.checked) ? `<div class="foot">
+          <span class="gl">${pop}</span>
           ${g.checked?`<span>確認日 ${esc(g.checked)}</span>`:""}
-        </div>
+        </div>` : ""}
       </div>
     </article>`;
   }
