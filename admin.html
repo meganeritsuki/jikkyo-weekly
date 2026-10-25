@@ -7,7 +7,7 @@
 <title>実況週報 編集室</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 <style>
 .admin{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px;display:grid;gap:20px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -96,7 +96,7 @@ form{display:grid;gap:12px}
         <label class="field"><span>タイトル *</span><input type="text" id="f_title" required></label>
         <div class="grid2" style="margin:0">
           <label class="field"><span>ジャンル *</span><select id="f_genre" required></select></label>
-          <div class="field"><label for="f_time" class="flabel">プレイ時間（選ぶか自由に入力）</label><input type="text" id="f_time" placeholder="例：約40分"><div class="chips" id="timeChips"></div></div>
+          <div class="field"><label for="f_time" class="flabel">プレイ時間（選ぶか自由に入力）</label><input type="text" id="f_time" placeholder="例：約40分" autocomplete="off"><div class="chips" id="timeChips"></div></div>
         </div>
         <label class="field"><span>紹介文</span><textarea id="f_desc"></textarea></label>
         <div class="field"><span>配信のルール</span>
@@ -141,7 +141,7 @@ form{display:grid;gap:12px}
   </div>
 </div>
 
-<script src="card.js"></script>
+<script src="card.js?v=2"></script>
 <script>
 const { card, esc } = window.Jikkyo;
 const $ = id => document.getElementById(id);
