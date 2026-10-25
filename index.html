@@ -82,7 +82,9 @@ fetch("games.json", {cache:"no-store"})
     GAMES = data.games || [];
     $("week").textContent = (data.week || "") + " 更新";
     $("picks").innerHTML = GAMES.filter(g=>g.pick).map(g=>card(g,true)).join("");
-    genres = ["すべて", ...new Set(GAMES.map(g=>g.genre).filter(Boolean))];
+    const order = window.Jikkyo.GENRES || [];
+    const rank = x => { const i = order.indexOf(x); return i < 0 ? 99 : i; };
+    genres = ["すべて", ...[...new Set(GAMES.map(g=>g.genre).filter(Boolean))].sort((a,b)=>rank(a)-rank(b))];
     try{ const saved = localStorage.getItem("genre"); if(saved && genres.includes(saved)) current = saved; }catch(e){}
     render();
   })
