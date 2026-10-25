@@ -2,6 +2,39 @@
   "week": "2026年10月 第4週",
   "games": [
     {
+      "id": "gmvndha0n",
+      "title": "NoA_1208",
+      "genre": "ノベル",
+      "time": "1時間",
+      "status": "ok",
+      "money": true,
+      "heat": 3,
+      "pick": true,
+      "site": "https://novelgame.jp/games/show/13045",
+      "guide": "",
+      "thumb": "images/gmvndha0n-mvndha0n.webp",
+      "steam": "",
+      "itch": "",
+      "tags": [
+        "鬱",
+        "恋愛",
+        "精神崩壊",
+        "AI",
+        "依存",
+        "狂愛",
+        "ホラー"
+      ],
+      "desc": "いつものように中古屋を巡っていた主人公は、\nふと目に留まった“半額シール”の貼られた古いAIモデルの箱を手に取る。\n苦戦しながらも自宅のパソコンに導入し、\n高性能美少女AIとの理想的な日々が始まる……はずだったのだが――？",
+      "note": "",
+      "voices": [
+        {
+          "t": "NoA、幸せになろうな！！！！！",
+          "by": "編集部"
+        }
+      ],
+      "checked": "10/25"
+    },
+    {
       "id": "gmvncwct9",
       "title": "禁忌に触れるな",
       "genre": "ノベルゲーム",
