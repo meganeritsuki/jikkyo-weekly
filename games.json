@@ -9,7 +9,7 @@
       "status": "ok",
       "money": true,
       "heat": 2,
-      "pick": false,
+      "pick": true,
       "site": "https://novelgame.jp/games/show/12692",
       "guide": "",
       "thumb": "images/gmvnbzvph-mvnbzvph.webp",
