@@ -7,7 +7,7 @@
 <title>実況週報 編集室</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 <style>
 .admin{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px;display:grid;gap:20px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -115,7 +115,6 @@ form{display:grid;gap:12px}
         <label class="row" style="font-size:14px;gap:6px"><input type="checkbox" id="f_pick">今週のおすすめに表示する</label>
         <div class="grid2" style="margin:0">
           <label class="field"><span>ゲームのページ</span><input type="url" id="f_site" placeholder="https://"></label>
-          <label class="field"><span>公式ガイドライン</span><input type="url" id="f_guide" placeholder="https://"></label>
         </div>
         <div class="field"><span>サムネイル（許可済みの画像があれば）</span>
           <div class="drop">
@@ -141,7 +140,7 @@ form{display:grid;gap:12px}
   </div>
 </div>
 
-<script src="card.js?v=3"></script>
+<script src="card.js?v=4"></script>
 <script>
 const { card, esc } = window.Jikkyo;
 const $ = id => document.getElementById(id);
@@ -222,7 +221,7 @@ function fillForm(g){
   $("f_money").checked = g ? !!g.money : false; $("f_pick").checked = !!g?.pick;
   $("f_heat").value = g?.heat || 3; $("heatVal").textContent = $("f_heat").value;
   $("f_checked").value = isoFromChecked(g?.checked);
-  $("f_site").value = g?.site || ""; $("f_guide").value = g?.guide || "";
+  $("f_site").value = g?.site || "";
   $("f_steam").value = g?.steam || ""; $("f_itch").value = g?.itch || "";
   $("f_tags").value = (g?.tags || []).join("、");
   $("f_voices").value = (g?.voices || []).map(v=>v.t).join("\n");
@@ -245,7 +244,7 @@ function readForm(){
     title: $("f_title").value.trim(), genre: $("f_genre").value.trim(), time: $("f_time").value.trim(),
     status: document.querySelector("input[name=status]:checked").value, money: $("f_money").checked,
     heat: Number($("f_heat").value), pick: $("f_pick").checked,
-    site: $("f_site").value.trim(), guide: $("f_guide").value.trim(),
+    site: $("f_site").value.trim(), guide: "",
     thumb: removeImage ? "" : (base.thumb || ""), steam: $("f_steam").value.trim(), itch: $("f_itch").value.trim(),
     tags: $("f_tags").value.split(/[、,，\s]+/).map(s=>s.trim()).filter(Boolean),
     desc: $("f_desc").value.trim(), note: $("f_note").value.trim(),
